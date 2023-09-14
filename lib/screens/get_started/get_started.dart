@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:swift_wallet/constants.dart';
 
 import 'package:swift_wallet/screens/get_started/tips_widget.dart';
+import 'package:swift_wallet/screens/register/register.dart';
 
 class GetStarted extends StatefulWidget {
   const GetStarted({Key? key}) : super(key: key);
@@ -39,6 +40,7 @@ class GetStartedState extends State<GetStarted> {
                       ),
                     ),
                     SizedBox(
+                      height: screenHeight * 0.3,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -48,7 +50,9 @@ class GetStartedState extends State<GetStarted> {
                             width: screenWidth * 0.8,
                             height: 50,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Register()));
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: primaryButtonColor,
                                 shape: RoundedRectangleBorder(
@@ -62,9 +66,10 @@ class GetStartedState extends State<GetStarted> {
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
-                                ),
+                              ),
                             ),
                           ),
+                          const SizedBox(height: 20),
                         ],
                       ),
                     ),

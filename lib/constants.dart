@@ -7,7 +7,6 @@ const primaryTextColor = Color(0xFFE5E5E5);
 const secondaryTextColor = Color(0xFFA5A5A5);
 const tertiaryTextColor = Color(0xFF000000);
 
-
 // Button Colors
 const primaryButtonColor = Color(0xFFFFFFFF);
 

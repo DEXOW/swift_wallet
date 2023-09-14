@@ -12,12 +12,21 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
+  google_fonts: ^5.1.0
+  flutter_launcher_icons: ^0.13.1
+  country_code_picker: ^3.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/logos/android/play_store_512.png"
+  image_path_android: "assets/logos/android/res/mipmap-hdpi/ic_launcher.png"
 
 flutter:
   uses-material-design: true
