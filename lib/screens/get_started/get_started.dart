@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:swift_wallet/constants.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:swift_wallet/screens/get_started/tips_widget.dart';
+import 'package:swift_wallet/screens/register/register.dart';
 
 class GetStarted extends StatefulWidget {
   const GetStarted({Key? key}) : super(key: key);
@@ -31,14 +32,19 @@ class GetStartedState extends State<GetStarted> {
                       constraints: BoxConstraints(
                         maxHeight: screenHeight * 0.7,
                       ),
-                      child: const Column(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image(image: AssetImage('assets/logo.png')),
+                          SvgPicture.asset(
+                            'assets/logo.svg',
+                            height: 50,
+                            colorFilter: ColorFilter.mode(Theme.of(context).iconTheme.color!, BlendMode.srcIn),
+                          ),
                         ],
                       ),
                     ),
                     SizedBox(
+                      height: screenHeight * 0.3,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -48,23 +54,20 @@ class GetStartedState extends State<GetStarted> {
                             width: screenWidth * 0.8,
                             height: 50,
                             child: ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: primaryButtonColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const Register()));
+                              },
+                              style: Theme.of(context).elevatedButtonTheme.style,
                               child: const Text(
                                 'Get Started',
                                 style: TextStyle(
-                                  color: tertiaryTextColor,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
-                                ),
+                              ),
                             ),
                           ),
+                          const SizedBox(height: 20),
                         ],
                       ),
                     ),

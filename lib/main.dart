@@ -16,12 +16,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: primaryBgColor,
-        splashColor: Colors.transparent,
-        highlightColor: primaryBgColor,
-        hoverColor: Colors.transparent,
-      ),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system,
       home: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light.copyWith(systemNavigationBarColor: primaryBgColor),
         child:  const GetStarted(),

@@ -49,10 +49,7 @@ class TipsWidgetState extends State<TipsWidget> {
               child: Text(
                 tips[index],
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w300,
-                ),
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
             const SizedBox(height: 20),
