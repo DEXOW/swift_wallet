@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:swift_wallet/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pinput/pinput.dart';
+import 'package:swift_wallet/constants.dart';
+
 import 'package:swift_wallet/screens/register/register.dart';
+import 'package:swift_wallet/screens/root.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -12,6 +15,10 @@ class Login extends StatefulWidget {
 
 class LoginState extends State<Login> {
   int currentScene = 1;
+
+  void login() {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Root())); 
+  }
 
   @override
   Widget build(BuildContext context){
@@ -154,7 +161,7 @@ class LoginState extends State<Login> {
                 height: 45,
                 child: TextButton(
                   onPressed: () {
-                    // 
+                    login();
                   },
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.black, 
@@ -175,7 +182,7 @@ class LoginState extends State<Login> {
               const SizedBox(height: 5),
               TextButton(
                 onPressed: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Login()));
+                  //
                 },
                 style: TextButton.styleFrom(
                   padding: EdgeInsets.zero,
@@ -289,10 +296,27 @@ class LoginState extends State<Login> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  pinInputBox(),
-                  pinInputBox(),
-                  pinInputBox(),
-                  pinInputBox(),
+                  Pinput(
+                    length: 4,
+                    onCompleted: (value) {
+                      login();
+                    },
+                    closeKeyboardWhenCompleted: false,
+                    defaultPinTheme: PinTheme(
+                      width: 45,
+                      height: 60,
+                      margin: const EdgeInsets.only(top: 60),
+                      textStyle: const TextStyle(
+                        fontSize: 20, 
+                        color: Color(0xFFEAEFF3), 
+                        fontWeight: FontWeight.w600
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0x5E606060),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  )
                 ],
               ),
               
