@@ -17,8 +17,8 @@ const primaryButtonColor = Color(0xFFFFFFFF);
 class AppTheme {
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
-    primaryColor: Colors.white,
-    scaffoldBackgroundColor: Colors.white,
+    primaryColor: const Color(0xFFF5F5F5),
+    scaffoldBackgroundColor: const Color(0xFFF5F5F5),
     iconTheme: const IconThemeData(
       color: Color(0xFF23272A),
     ),
@@ -62,6 +62,16 @@ class AppTheme {
           ),
         ),
         elevation: MaterialStateProperty.all<double>(0),
+      ),
+    ),
+
+    inputDecorationTheme: InputDecorationTheme(
+      fillColor: const Color(0xFF23272A).withOpacity(0.10),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: BorderSide(
+          color: const Color(0xFF23272A).withOpacity(0.25),
+        ),
       ),
     ),
 
@@ -118,7 +128,7 @@ class AppTheme {
     primaryColor: const Color(0xFF23272A),
     scaffoldBackgroundColor: const Color(0xFF23272A),
     iconTheme: const IconThemeData(
-      color: Colors.white,
+      color: Color(0xFFF5F5F5),
     ),
 
     appBarTheme: const AppBarTheme(
@@ -130,7 +140,7 @@ class AppTheme {
         fontWeight: FontWeight.bold,
       ),
       iconTheme: IconThemeData(
-        color: Colors.white,
+        color: Color(0xFFF5F5F5),
       ),
     ),
 
@@ -143,7 +153,7 @@ class AppTheme {
     //Button Theme
 
     buttonTheme: ButtonThemeData(
-      buttonColor: Colors.white,
+      buttonColor:const Color(0xFFF5F5F5),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
@@ -152,7 +162,7 @@ class AppTheme {
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+        backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFFF5F5F5)),
         foregroundColor: MaterialStateProperty.all<Color>(const Color(0xFF23272A)),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
@@ -162,11 +172,13 @@ class AppTheme {
         elevation: MaterialStateProperty.all<double>(0),
       ),
     ),
+    
     inputDecorationTheme: InputDecorationTheme(
+      fillColor: const Color(0xFFD9D9D9).withOpacity(0.10),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
         borderSide: BorderSide(
-          color: Colors.white.withOpacity(0.25),
+          color: const Color(0xFFF5F5F5).withOpacity(0.25),
         ),
       ),
     ),

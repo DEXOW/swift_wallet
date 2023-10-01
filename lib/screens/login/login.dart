@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
-import 'package:swift_wallet/constants.dart';
 
 import 'package:swift_wallet/screens/register/register.dart';
 import 'package:swift_wallet/screens/root.dart';
@@ -47,10 +47,10 @@ class LoginState extends State<Login> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Image.asset(
-                                  'assets/logo.png',
+                                SvgPicture.asset(
+                                  'assets/logo.svg',
                                   height: 40,
-                                  width: 136,
+                                  colorFilter: ColorFilter.mode(Theme.of(context).iconTheme.color!, BlendMode.srcIn),
                                 ),
                               ]
                             ),
@@ -90,7 +90,7 @@ class LoginState extends State<Login> {
                                     style: GoogleFonts.didactGothic(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
-                                      color: Colors.white,
+                                      color: Theme.of(context).textTheme.bodySmall!.color,
                                     ),
                                   ),
                                   const SizedBox(width: 5),
@@ -159,17 +159,11 @@ class LoginState extends State<Login> {
               SizedBox(
                 width: double.infinity,
                 height: 45,
-                child: TextButton(
+                child: ElevatedButton(
                   onPressed: () {
                     login();
                   },
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.black, 
-                    backgroundColor: primaryButtonColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
+                  style: Theme.of(context).elevatedButtonTheme.style,
                   child: Text(
                     'Login',
                     style: GoogleFonts.inter(
@@ -196,7 +190,7 @@ class LoginState extends State<Login> {
                       style: GoogleFonts.inter(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
-                        color: Colors.white,
+                        color: Theme.of(context).textTheme.bodySmall!.color,
                       ),
                     ),
                     const SizedBox(width: 5),
@@ -219,7 +213,7 @@ class LoginState extends State<Login> {
                     style: GoogleFonts.didactGothic(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
-                      color: Colors.white,
+                      color: Theme.of(context).textTheme.bodySmall!.color,
                     ),
                   ),
                 ],
@@ -228,19 +222,13 @@ class LoginState extends State<Login> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextButton(
+                  ElevatedButton(
                     onPressed: () {
                       setState(() {
                         currentScene = 2;
                       });
                     },
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.white, 
-                      backgroundColor: const Color(0xFF000000).withOpacity(0.4),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
+                    style: Theme.of(context).elevatedButtonTheme.style,
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: Text(
@@ -260,9 +248,9 @@ class LoginState extends State<Login> {
                 children: [
                   IconButton(
                     onPressed: () {}, 
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.fingerprint,
-                      color: Colors.white,
+                      color: Theme.of(context).textTheme.bodySmall!.color,
                       size: 40,
                     )
                   ),
@@ -306,13 +294,13 @@ class LoginState extends State<Login> {
                       width: 45,
                       height: 60,
                       margin: const EdgeInsets.only(top: 60),
-                      textStyle: const TextStyle(
+                      textStyle: TextStyle(
                         fontSize: 20, 
-                        color: Color(0xFFEAEFF3), 
+                        color: Theme.of(context).textTheme.bodyMedium!.color, 
                         fontWeight: FontWeight.w600
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0x5E606060),
+                        color: Theme.of(context).inputDecorationTheme.fillColor,
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
@@ -325,19 +313,13 @@ class LoginState extends State<Login> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextButton(
+                  ElevatedButton(
                     onPressed: () {
                       setState(() {
                         currentScene = 1;
                       });
                     },
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.white, 
-                      backgroundColor: const Color(0xFF000000).withOpacity(0.4),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
+                    style: Theme.of(context).elevatedButtonTheme.style,
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: Text(
@@ -357,9 +339,9 @@ class LoginState extends State<Login> {
                 children: [
                   IconButton(
                     onPressed: () {}, 
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.fingerprint,
-                      color: Colors.white,
+                      color: Theme.of(context).textTheme.bodySmall!.color,
                       size: 40,
                     )
                   ),
@@ -378,11 +360,11 @@ class LoginState extends State<Login> {
       height: 52,
       margin: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
-        color: const Color(0xFFD9D9D9).withOpacity(0.10),
+        color: Theme.of(context).inputDecorationTheme.fillColor,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
           width: 2,
-          color: const Color(0xFFFFFFFF).withOpacity(0.25),
+          color: Theme.of(context).inputDecorationTheme.border!.borderSide.color,
         ),
       ),
     );
@@ -392,7 +374,7 @@ class LoginState extends State<Login> {
     return TextFormField(
       decoration: InputDecoration(
         filled: true,
-        fillColor: const Color(0xFFD9D9D9).withOpacity(0.10),
+        fillColor: Theme.of(context).inputDecorationTheme.fillColor,
         hintText: hint,
         hintStyle: GoogleFonts.inter(
           fontSize: 12,

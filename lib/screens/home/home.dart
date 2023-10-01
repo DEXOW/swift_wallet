@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:swift_wallet/constants.dart';
 
 class Home extends StatefulWidget {
@@ -21,7 +22,7 @@ class HomeState extends State<Home> {
               height: 240,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(500),
-                color: Colors.white,
+                color: Theme.of(context).iconTheme.color,
               ),
             ),
             Container(
@@ -29,7 +30,7 @@ class HomeState extends State<Home> {
               height: 220,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(500),
-                color: primaryBgColor,
+                color: Theme.of(context).scaffoldBackgroundColor,
               ),
             ),
             SizedBox(
@@ -41,7 +42,7 @@ class HomeState extends State<Home> {
                   Text(
                     'Account Balance',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.5),
+                      color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.5),
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
@@ -50,10 +51,10 @@ class HomeState extends State<Home> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
+                      Text(
                         '120,000',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Theme.of(context).textTheme.bodyMedium!.color,
                           fontSize: 30,
                           fontWeight: FontWeight.w500,
                         ),
@@ -62,7 +63,7 @@ class HomeState extends State<Home> {
                       Text(
                         'USD',
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.25),
+                          color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.25),
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
                         ),
@@ -75,7 +76,7 @@ class HomeState extends State<Home> {
                       Text(
                         'Last Transaction',
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.5),
+                          color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.5),
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                         ),
@@ -110,48 +111,60 @@ class HomeState extends State<Home> {
                     width: 60,
                     height: 60,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFFFFFFF).withOpacity(0.1),
+                      color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Image.asset(
-                      'assets/images/cards_icon.png',
-                      height: 25,
+                    child: Center(
+                      child: SvgPicture.asset(
+                        'assets/images/cards_icon.svg',
+                        height: 25,
+                        colorFilter: ColorFilter.mode(Theme.of(context).iconTheme.color!, BlendMode.srcIn),
+                      ),
                     ),
                   ),
                   Container(
                     width: 60,
                     height: 60,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFFFFFFF).withOpacity(0.1),
+                      color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Image.asset(
-                      'assets/images/transactions_icon.png',
-                      height: 25,
+                    child: Center(
+                      child: SvgPicture.asset(
+                        'assets/images/accounts_icon.svg',
+                        colorFilter: ColorFilter.mode(Theme.of(context).iconTheme.color!, BlendMode.srcIn),
+                        height: 25,
+                      ),
                     ),
                   ),
                   Container(
                     width: 60,
                     height: 60,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFFFFFFF).withOpacity(0.1),
+                      color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Image.asset(
-                      'assets/images/history_icon.png',
-                      height: 25,
+                    child: Center(
+                      child: SvgPicture.asset(
+                        'assets/images/history_icon.svg',
+                        colorFilter: ColorFilter.mode(Theme.of(context).iconTheme.color!, BlendMode.srcIn),
+                        height: 25,
+                      ),
                     ),
                   ),
                   Container(
                     width: 60,
                     height: 60,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFFFFFFF).withOpacity(0.1),
+                      color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Image.asset(
-                      'assets/images/analytics_icon.png',
-                      height: 25,
+                    child: Center(
+                      child: SvgPicture.asset(
+                        'assets/images/analytics_icon.svg',
+                        colorFilter: ColorFilter.mode(Theme.of(context).iconTheme.color!, BlendMode.srcIn),
+                        height: 25,
+                      ),
                     ),
                   ),
                 ],
@@ -171,7 +184,7 @@ class HomeState extends State<Home> {
                             height: 90,
                             width: 160,
                             decoration: BoxDecoration(
-                              color: const Color(0xFFFFFFFF).withOpacity(0.1),
+                              color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Container(
@@ -181,14 +194,16 @@ class HomeState extends State<Home> {
                                 children: [
                                   Row(
                                     children: [
-                                      Image.asset(
-                                        'assets/images/transfers_icon.png',
+                                      SvgPicture.asset(
+                                        'assets/images/transfers_icon.svg',
+                                        colorFilter: ColorFilter.mode(Theme.of(context).iconTheme.color!, BlendMode.srcIn),
+                                        height: 15,
                                       ),
                                       const SizedBox(width: 10),
                                       Text(
                                         'Transfers',
                                         style: TextStyle(
-                                          color: Colors.white.withOpacity(0.75),
+                                          color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.75),
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -225,7 +240,7 @@ class HomeState extends State<Home> {
                             height: 90,
                             width: 160,
                             decoration: BoxDecoration(
-                              color: const Color(0xFFFFFFFF).withOpacity(0.1),
+                              color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Container(
@@ -235,14 +250,16 @@ class HomeState extends State<Home> {
                                 children: [
                                   Row(
                                     children: [
-                                      Image.asset(
-                                        'assets/images/offers_icon.png',
+                                      SvgPicture.asset(
+                                        'assets/images/offers_icon.svg',
+                                        colorFilter: ColorFilter.mode(Theme.of(context).iconTheme.color!, BlendMode.srcIn),
+                                        height: 15,
                                       ),
                                       const SizedBox(width: 10),
                                       Text(
                                         'Offers',
                                         style: TextStyle(
-                                          color: Colors.white.withOpacity(0.75),
+                                          color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.75),
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -340,7 +357,7 @@ class HomeState extends State<Home> {
       width: double.infinity,
       height: 70,
       decoration: BoxDecoration(
-        color: const Color(0xFFFFFFFF).withOpacity(0.1),
+        color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.1),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Container(
@@ -354,16 +371,18 @@ class HomeState extends State<Home> {
               children: [
                 Row(
                   children: [
-                    Image.asset(
+                    SvgPicture.asset(
                       accountType == 'credit'
-                          ? 'assets/images/card_icon.png'
-                          : 'assets/images/vault_icon.png',
+                          ? 'assets/images/card_icon.svg'
+                          : 'assets/images/vault_icon.svg',
+                      colorFilter: ColorFilter.mode(Theme.of(context).iconTheme.color!, BlendMode.srcIn),
+                      height: 15,
                     ),
                     const SizedBox(width: 10),
                     Text(
                       accountName,
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.75),
+                        color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.75),
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                       ),
@@ -374,7 +393,7 @@ class HomeState extends State<Home> {
                 Text(
                   accountNo,
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.45),
+                    color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.45),
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
                   ),
@@ -390,7 +409,7 @@ class HomeState extends State<Home> {
                     Text(
                       balance,
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.75),
+                        color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.75),
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                       ),
@@ -399,7 +418,7 @@ class HomeState extends State<Home> {
                     Text(
                       currency,
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.5),
+                        color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.5),
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
                       ),
@@ -410,7 +429,7 @@ class HomeState extends State<Home> {
                 Text(
                   status,
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.45),
+                    color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.45),
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
                   ),

@@ -1,12 +1,11 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:swift_wallet/constants.dart';
 
 import 'package:swift_wallet/screens/login/login.dart';
-
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -53,10 +52,10 @@ class RegisterState extends State<Register> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Image.asset(
-                                  'assets/logo.png',
+                                SvgPicture.asset(
+                                  'assets/logo.svg',
                                   height: 40,
-                                  width: 136,
+                                  colorFilter: ColorFilter.mode(Theme.of(context).iconTheme.color!, BlendMode.srcIn),
                                 ),
                               ]
                             ),
@@ -107,34 +106,25 @@ class RegisterState extends State<Register> {
                                         });
                                       }
                                     },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: primaryButtonColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                    child: const Icon(CupertinoIcons.back, color: Colors.black, size: 20, weight: 60,),
+                                    style: Theme.of(context).elevatedButtonTheme.style,
+                                    child: const Icon(CupertinoIcons.back, size: 20, weight: 60,),
                                   ),
                                 ),
                                 const SizedBox(width: 15),
                                 SizedBox(
                                   width: 210,
                                   height: 45,
-                                  child: TextButton(
+                                  child: ElevatedButton(
                                     onPressed: () {
                                       if (currentScene < 7){
                                         setState(() {
                                           currentScene++;
                                         });
+                                      } else {
+                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Login()));
                                       }
                                     },
-                                    style: TextButton.styleFrom(
-                                      foregroundColor: Colors.black, 
-                                      backgroundColor: primaryButtonColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
+                                    style: Theme.of(context).elevatedButtonTheme.style,
                                     child: Text(
                                       currentScene < 7 ? currentScene < 6 ? 'Next' : 'Register' : 'Done',
                                       style: GoogleFonts.didactGothic(
@@ -163,7 +153,7 @@ class RegisterState extends State<Register> {
                                     style: GoogleFonts.didactGothic(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
-                                      color: Colors.white,
+                                      color: Theme.of(context).textTheme.bodyMedium!.color,
                                     ),
                                   ),
                                   const SizedBox(width: 5),
@@ -308,10 +298,10 @@ class RegisterState extends State<Register> {
                         margin: const EdgeInsets.only(right: 10),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFD9D9D9).withOpacity(0.10),
+                          color: Theme.of(context).inputDecorationTheme.fillColor,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                            color: Colors.white.withOpacity(0.25),
+                            color: Theme.of(context).inputDecorationTheme.border!.borderSide.color,
                           ),
                         ),
                         child: Text(
@@ -319,7 +309,7 @@ class RegisterState extends State<Register> {
                           style: GoogleFonts.inter(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: selectedDate.day == DateTime.now().day ? Colors.white.withOpacity(0.25) : Colors.white,
+                            color: selectedDate.day == DateTime.now().day ? Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.25) : Theme.of(context).textTheme.bodyMedium!.color,
                           ),
                         ),
                       ),
@@ -329,10 +319,10 @@ class RegisterState extends State<Register> {
                         margin: const EdgeInsets.symmetric(horizontal: 10),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFD9D9D9).withOpacity(0.10),
+                          color: Theme.of(context).inputDecorationTheme.fillColor,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                            color: Colors.white.withOpacity(0.25),
+                            color: Theme.of(context).inputDecorationTheme.border!.borderSide.color,
                           ),
                         ),
                         child: Text(
@@ -340,7 +330,7 @@ class RegisterState extends State<Register> {
                           style: GoogleFonts.inter(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: selectedDate.month == DateTime.now().month ? Colors.white.withOpacity(0.25) : Colors.white,
+                            color: selectedDate.month == DateTime.now().month ? Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.25) : Theme.of(context).textTheme.bodyMedium!.color,
                           ),
                         ),
                       ),
@@ -350,10 +340,10 @@ class RegisterState extends State<Register> {
                         margin: const EdgeInsets.only(left: 10),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFD9D9D9).withOpacity(0.10),
+                          color: Theme.of(context).inputDecorationTheme.fillColor,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                            color: Colors.white.withOpacity(0.25),
+                            color: Theme.of(context).inputDecorationTheme.border!.borderSide.color,
                           ),
                         ),
                         child: Text(
@@ -361,7 +351,7 @@ class RegisterState extends State<Register> {
                           style: GoogleFonts.inter(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: selectedDate.year == DateTime.now().year ? Colors.white.withOpacity(0.25) : Colors.white,
+                            color: selectedDate.year == DateTime.now().year ? Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.25) : Theme.of(context).textTheme.bodyMedium!.color,
                           ),
                         ),
                       ),
@@ -376,10 +366,10 @@ class RegisterState extends State<Register> {
                 label: 'Country', 
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFFD9D9D9).withOpacity(0.10),
+                    color: Theme.of(context).inputDecorationTheme.fillColor,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
-                      color: Colors.white.withOpacity(0.25),
+                      color: Theme.of(context).inputDecorationTheme.border!.borderSide.color,
                     ),
                   ),
                   child: CountryCodePicker(
@@ -392,9 +382,9 @@ class RegisterState extends State<Register> {
                     showOnlyCountryWhenClosed: true,
                     showFlagMain: false,
                     alignLeft: true,
-                    backgroundColor: primaryBgColor,
-                    dialogBackgroundColor: primaryBgColor,
-                    barrierColor: primaryBgColor,
+                    backgroundColor: Theme.of(context).primaryColor,
+                    dialogBackgroundColor: Theme.of(context).primaryColor,
+                    barrierColor: Theme.of(context).primaryColor,
                     textStyle: Theme.of(context).textTheme.labelSmall,
                   ),
                 ),
@@ -436,10 +426,10 @@ class RegisterState extends State<Register> {
                       width: 72.toDouble(),
                       height: 50.toDouble(),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFD9D9D9).withOpacity(0.10),
+                        color: Theme.of(context).inputDecorationTheme.fillColor,
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.25),
+                          color: Theme.of(context).inputDecorationTheme.border!.borderSide.color,
                         ),
                       ),
                       child: CountryCodePicker(
@@ -452,9 +442,9 @@ class RegisterState extends State<Register> {
                         showOnlyCountryWhenClosed: false,
                         showFlagMain: false,
                         alignLeft: false,
-                        backgroundColor: primaryBgColor,
-                        dialogBackgroundColor: primaryBgColor,
-                        barrierColor: primaryBgColor,
+                        backgroundColor: Theme.of(context).primaryColor,
+                        dialogBackgroundColor: Theme.of(context).primaryColor,
+                        barrierColor: Theme.of(context).primaryColor,
                         textStyle: Theme.of(context).textTheme.labelSmall,
                       ),
                     ),
@@ -587,10 +577,10 @@ class RegisterState extends State<Register> {
                       width: 95,
                       height: 95,
                       decoration: BoxDecoration(
-                        color: const Color(0xFFD9D9D9).withOpacity(0.10),
+                        color: Theme.of(context).inputDecorationTheme.fillColor,
                         borderRadius: BorderRadius.circular(50),
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.25),
+                          color: Theme.of(context).inputDecorationTheme.border!.borderSide.color,
                         ),
                       ),
                       alignment: Alignment.center,
@@ -657,10 +647,10 @@ class RegisterState extends State<Register> {
                       width: screenWidth-(45*2),
                       height: 95,
                       decoration: BoxDecoration(
-                        color: const Color(0xFFD9D9D9).withOpacity(0.10),
+                        color: Theme.of(context).inputDecorationTheme.fillColor,
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.25),
+                          color: Theme.of(context).inputDecorationTheme.border!.borderSide.color,
                         ),
                       ),
                       alignment: Alignment.center,
@@ -719,7 +709,7 @@ class RegisterState extends State<Register> {
     return TextFormField(
       decoration: InputDecoration(
         filled: true,
-        fillColor: const Color(0xFFD9D9D9).withOpacity(0.10),
+        fillColor: Theme.of(context).inputDecorationTheme.fillColor,
         hintText: hint,
         hintStyle: GoogleFonts.inter(
           fontSize: 12,

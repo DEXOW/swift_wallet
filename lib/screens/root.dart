@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:swift_wallet/models/navbar.dart';
 
 import 'package:swift_wallet/providers/global_provider.dart';
 import 'package:swift_wallet/screens/home/home.dart';
@@ -29,9 +31,6 @@ class _RootState extends State<Root> {
       body: SafeArea(
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints){
-            // double screenHeight = MediaQuery.of(context).size.height;
-            // double screenWidth = MediaQuery.of(context).size.width;
-
             return Scaffold(
               resizeToAvoidBottomInset: false,
               body: SizedBox(
@@ -48,10 +47,10 @@ class _RootState extends State<Root> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Image.asset(
-                                  'assets/logo.png',
+                                SvgPicture.asset(
+                                  'assets/logo.svg',
                                   height: 30,
-                                  width: 99,
+                                  colorFilter: ColorFilter.mode(Theme.of(context).iconTheme.color!, BlendMode.srcIn),
                                 ),
                                 IconButton(
                                   onPressed: () {},
@@ -63,7 +62,6 @@ class _RootState extends State<Root> {
                               ]
                             ),
                           ),
-                          const SizedBox(height: 25),
                         ]
                       ),
                       Container(
@@ -92,54 +90,7 @@ class _RootState extends State<Root> {
                   ),
                 ),
               ),
-              bottomNavigationBar: Container(
-                decoration: const BoxDecoration(),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.25),
-                        blurStyle: BlurStyle.outer,
-                        spreadRadius: 5,
-                        blurRadius: 15,
-                      ),
-                    ],
-                  ),
-                  child: Row( //Navbar
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          globalProvider.setIndex(0);
-                        },
-                        child: Image.asset(
-                          'assets/images/accounts_icon.png',
-                          height: 25,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          globalProvider.setIndex(1);
-                        },
-                        child: Image.asset(
-                          'assets/images/home_icon.png',
-                          height: 25,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          globalProvider.setIndex(2);
-                        },
-                        child: Image.asset(
-                          'assets/images/settings_icon.png',
-                          height: 25,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              bottomNavigationBar: const Navbar(),
             );
           }
         ),

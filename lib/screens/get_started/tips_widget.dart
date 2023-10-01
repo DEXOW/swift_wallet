@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:swift_wallet/providers/theme_provider.dart';
 
 class TipsWidget extends StatefulWidget {
   const TipsWidget({Key? key}) : super(key: key);
@@ -16,6 +18,7 @@ class TipsWidgetState extends State<TipsWidget> {
 
   Duration duration = const Duration(seconds: 15);
   int index = 0;
+  late AppThemeProvider themeProvider;
 
   Future<void> changeTips() async {
     await Future<void>.delayed(duration);
@@ -38,6 +41,8 @@ class TipsWidgetState extends State<TipsWidget> {
   
   @override
   Widget build(BuildContext context) {
+    themeProvider = Provider.of<AppThemeProvider>(context);
+    
     return LayoutBuilder(
       builder: (context, constraints) {
         return Column(
@@ -66,7 +71,7 @@ class TipsWidgetState extends State<TipsWidget> {
     );
   }
   Widget dot(bool active) {
-    Color color = active ? Colors.white : Colors.white.withOpacity(0.5);
+    Color color = active ? themeProvider.darkTheme ? Colors.white : const Color(0xFF23272A) : themeProvider.darkTheme ? Colors.white.withOpacity(0.5) : const Color(0xFF23272A).withOpacity(0.5);
 
     return Container(
       height: 10,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swift_wallet/screens/settings/app_settings.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 20),
+        const SizedBox(height: 45),
         Column(
           children: [
             Stack(
@@ -85,6 +86,9 @@ class SettingsState extends State<Settings> {
             optionTile(
               title: 'App Settings',
               imageURI: 'assets/images/app_settings_icon.png',
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const AppSettings()));
+              },
             ),
             const SizedBox(height: 15),
             optionTile(
