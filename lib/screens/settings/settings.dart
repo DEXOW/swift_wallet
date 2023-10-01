@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:swift_wallet/screens/settings/app_settings.dart';
 
 class Settings extends StatefulWidget {
@@ -20,8 +21,10 @@ class SettingsState extends State<Settings> {
               children: [
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                  child: Image.asset(
-                    'assets/images/user_icon.png',
+                  child: SvgPicture.asset(
+                    'assets/images/user_icon.svg',
+                    colorFilter: ColorFilter.mode(Theme.of(context).iconTheme.color!, BlendMode.srcIn),
+                    height: 85,
                   ),
                 ),
                 Positioned(
@@ -62,7 +65,7 @@ class SettingsState extends State<Settings> {
             Text(
               '4317890650001',
               style: TextStyle(
-                color: Colors.white.withOpacity(0.5),
+                color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.5),
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
               ),
@@ -75,17 +78,17 @@ class SettingsState extends State<Settings> {
           children: [
             optionTile(
               title: 'Account Settings',
-              imageURI: 'assets/images/profile_icon.png',
+              imageURI: 'assets/images/profile_icon.svg',
             ),
             const SizedBox(height: 15),
             optionTile(
               title: 'Security Settings',
-              imageURI: 'assets/images/security_icon.png',
+              imageURI: 'assets/images/security_icon.svg',
             ),
             const SizedBox(height: 15),
             optionTile(
               title: 'App Settings',
-              imageURI: 'assets/images/app_settings_icon.png',
+              imageURI: 'assets/images/app_settings_icon.svg',
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const AppSettings()));
               },
@@ -93,7 +96,7 @@ class SettingsState extends State<Settings> {
             const SizedBox(height: 15),
             optionTile(
               title: 'Support',
-              imageURI: 'assets/images/support_icon.png',
+              imageURI: 'assets/images/support_icon.svg',
             ),
           ],
         )
@@ -115,12 +118,15 @@ class SettingsState extends State<Settings> {
             height: 50,
             width: 50,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
+              color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.1),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Image.asset(
-              imageURI,
-              height: 25,
+            child: Center(
+              child: SvgPicture.asset(
+                imageURI,
+                colorFilter: ColorFilter.mode(Theme.of(context).iconTheme.color!, BlendMode.srcIn),
+                height: 25,
+              ),
             ),
           ),
           const SizedBox(width: 10),
@@ -128,13 +134,13 @@ class SettingsState extends State<Settings> {
             height: 50,
             width: 200,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
+              color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.1),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Center(
               child: Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:swift_wallet/constants.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

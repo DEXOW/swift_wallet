@@ -15,7 +15,6 @@ class Root extends StatefulWidget {
 }
 
 class _RootState extends State<Root> {
-
   late GlobalProvider globalProvider;
 
   @override

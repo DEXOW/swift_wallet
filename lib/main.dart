@@ -9,6 +9,7 @@ import 'package:swift_wallet/providers/user_provider.dart';
 import 'package:swift_wallet/screens/get_started/get_started.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MultiProvider(
       providers: [
@@ -39,7 +40,6 @@ class MyAppState extends State<MyApp> {
         darkTheme: AppTheme.darkTheme,
         themeMode: state.darkTheme ? ThemeMode.dark : ThemeMode.light,
         home: AnnotatedRegion<SystemUiOverlayStyle>(
-          // value: SystemUiOverlayStyle.light.copyWith(systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor),
           value: SystemUiOverlayStyle(
             statusBarColor: Colors.transparent,
             statusBarIconBrightness: state.darkTheme ? Brightness.light : Brightness.dark,
