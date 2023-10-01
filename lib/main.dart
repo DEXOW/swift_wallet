@@ -7,9 +7,9 @@ import 'package:swift_wallet/providers/theme_provider.dart';
 
 import 'package:swift_wallet/providers/user_provider.dart';
 import 'package:swift_wallet/screens/get_started/get_started.dart';
-import 'package:swift_wallet/screens/home/home.dart';
 import 'package:swift_wallet/screens/login/login.dart';
 import 'package:swift_wallet/screens/register/register.dart';
+import 'package:swift_wallet/screens/root.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,7 +56,7 @@ class MyAppState extends State<MyApp> {
           '/get-started': (context) => const GetStarted(),
           '/register':(context) => const Register(),
           '/login':(context) => const Login(),
-          '/root':(context) => const Home(),
+          '/root':(context) => const Root(),
         },
       );
     }),

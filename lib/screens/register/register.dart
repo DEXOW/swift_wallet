@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 import 'package:swift_wallet/models/camera.dart';
 import 'package:swift_wallet/providers/user_provider.dart';
+import 'package:swift_wallet/validate.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -24,11 +25,28 @@ class RegisterState extends State<Register> {
   late DateTime selectedDate;
   int minAllowedAge = 18;
   int currentScene = 1;
+  final controllers = {
+    'firstName': TextEditingController(),
+    'lastName': TextEditingController(),
+    'otherNames': TextEditingController(),
+    'dob': TextEditingController(),
+    'country': TextEditingController(),
+    'phoneNo': TextEditingController(),
+    'email': TextEditingController(),
+    'password': TextEditingController(),
+    'confPassword': TextEditingController(),
+    'profilePic': TextEditingController(),
+    'documents': [],
+  };
+  final _formKey1 = GlobalKey<FormState>();
+  final _formKey2 = GlobalKey<FormState>();
+  final _formKey3 = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
     selectedDate = DateTime.now();
+    (controllers['country'] as TextEditingController).text = 'Sri Lanka';
   }
 
   @override
@@ -125,10 +143,55 @@ class RegisterState extends State<Register> {
                                   child: ElevatedButton(
                                     onPressed: () {
                                       if (currentScene < 7){
-                                        setState(() {
-                                          currentScene++;
-                                        });
+                                        switch (currentScene){
+                                          case (1):
+                                            if (_formKey1.currentState!.validate()){
+                                              setState(() {
+                                                currentScene++;
+                                              });
+                                            }
+                                            break;
+                                          case (2):
+                                            if ((controllers['dob'] as TextEditingController).text != '' && (controllers['country'] as TextEditingController).text != ''){
+                                              setState(() {
+                                                currentScene++;
+                                              });
+                                            }
+                                            break;
+                                          case (3):
+                                            if (_formKey2.currentState!.validate()){
+                                              setState(() {
+                                                currentScene++;
+                                              });
+                                            }
+                                            break;
+                                          case (4):
+                                            if (_formKey3.currentState!.validate()){
+                                              setState(() {
+                                                currentScene++;
+                                              });
+                                            }
+                                            break;
+                                          case (5):
+                                            if (userDataProvider.imagePath != ''){
+                                              setState(() {
+                                                currentScene++;
+                                              });
+                                            }
+                                            break;
+                                          case (6):
+                                            if (userDataProvider.documentImagePaths.isNotEmpty){
+                                              setState(() {
+                                                currentScene++;
+                                              });
+                                            }
+                                            break;
+                                        }
+                                        // setState(() {
+                                        //   currentScene++;
+                                        // });
                                       } else {
+                                        userDataProvider.clearData();
                                         Navigator.pushReplacementNamed(context, '/login');
                                       }
                                     },
@@ -190,61 +253,70 @@ class RegisterState extends State<Register> {
   }
 
   Widget view1(double screenWidth, double screenHeight){
-    return Column(
-      children: [
-        const SizedBox(height: 75),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 45),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Become a member.',
-                style: GoogleFonts.didactGothic(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w100,
-                ),
-              ),
-              const SizedBox(height: 55),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  inputField(
-                    width: (screenWidth-45) * 0.4,
-                    height: 50.toDouble(),
-                    label: 'First Name', 
-                    child: inputBox(
-                      hint: 'John', 
-                      obscure: false
-                    ),
+    return Form(
+      key: _formKey1,
+      child: Column(
+        children: [
+          const SizedBox(height: 75),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 45),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Become a member.',
+                  style: GoogleFonts.didactGothic(
+                    fontSize: 26,
+                    fontWeight: FontWeight.w100,
                   ),
-                  inputField(
-                    width: (screenWidth-45) * 0.4,
-                    height: 50.toDouble(),
-                    label: 'Last Name', 
-                    child: inputBox(
-                      hint: 'Doe', 
-                      obscure: false
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              inputField(
-                width: double.infinity,
-                height: 50.toDouble(),
-                label: 'Other Names', 
-                child: inputBox(
-                  hint: 'Mark',
-                  obscure: false
                 ),
-              ),
-            ],
+                const SizedBox(height: 55),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    inputField(
+                      width: (screenWidth-45) * 0.4,
+                      height: 50.toDouble(),
+                      label: 'First Name', 
+                      child: inputBox(
+                        hint: 'John', 
+                        controller: controllers['firstName'],
+                        validator: (value) => Validate.validateRegName(name: value),
+                        obscure: false
+                      ),
+                    ),
+                    inputField(
+                      width: (screenWidth-45) * 0.4,
+                      height: 50.toDouble(),
+                      label: 'Last Name', 
+                      child: inputBox(
+                        hint: 'Doe', 
+                        controller: controllers['lastName'],
+                        validator: (value) => Validate.validateRegName(name: value),
+                        obscure: false
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                inputField(
+                  width: double.infinity,
+                  height: 50.toDouble(),
+                  label: 'Other Names', 
+                  child: inputBox(
+                    hint: 'Mark',
+                    controller: controllers['otherNames'],
+                    validator: (value) => Validate.noValidte(value: value),
+                    obscure: false
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: 55),
-      ],
+          const SizedBox(height: 55),
+        ],
+      ),
     );
   }
 
@@ -295,6 +367,7 @@ class RegisterState extends State<Register> {
                       setState(() {
                         selectedDate = picked;
                       });
+                      (controllers['dob'] as TextEditingController).text = DateFormat('dd-mm-yyyy').format(selectedDate);
                     }
                   },
                   child: Row(
@@ -382,7 +455,7 @@ class RegisterState extends State<Register> {
                   ),
                   child: CountryCodePicker(
                     onChanged: (value) {
-                      print(value);
+                      (controllers['country'] as TextEditingController).text = '${value.name}';
                     },
                     initialSelection: 'LK',
                     favorite: const ['+94'],
@@ -406,155 +479,172 @@ class RegisterState extends State<Register> {
   }
 
   Widget view3(double screenWidth, double screenHeight) {
-    return Column(
-      children: [
-        const SizedBox(height: 75),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 45),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'How can we contact you ?',
-                style: GoogleFonts.didactGothic(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w100,
+    return Form(
+      key: _formKey2,
+      child: Column(
+        children: [
+          const SizedBox(height: 75),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 45),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'How can we contact you ?',
+                  style: GoogleFonts.didactGothic(
+                    fontSize: 26,
+                    fontWeight: FontWeight.w100,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 55),
-              inputField(
-                width: screenWidth-(45*2),
-                height: 50.toDouble(),
-                label: 'Contact Number', 
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 72.toDouble(),
-                      height: 50.toDouble(),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).inputDecorationTheme.fillColor,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Theme.of(context).inputDecorationTheme.border!.borderSide.color,
-                        ),
-                      ),
-                      child: CountryCodePicker(
-                        onChanged: (value) {
-                          print(value);
-                        },
-                        initialSelection: 'LK',
-                        favorite: const ['+94'],
-                        showCountryOnly: false,
-                        showOnlyCountryWhenClosed: false,
-                        showFlagMain: false,
-                        alignLeft: false,
-                        backgroundColor: Theme.of(context).primaryColor,
-                        dialogBackgroundColor: Theme.of(context).primaryColor,
-                        barrierColor: Theme.of(context).primaryColor,
-                        textStyle: Theme.of(context).textTheme.labelSmall,
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 136.toDouble(),
-                          height: 50.toDouble(),
-                          child: inputBox(
-                            hint: '777 123 456', 
-                            obscure: false,
-                            textAlign: TextAlign.center
+                const SizedBox(height: 55),
+                inputField(
+                  width: screenWidth-(45*2),
+                  height: 50.toDouble(),
+                  label: 'Contact Number', 
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 72.toDouble(),
+                        height: 50.toDouble(),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).inputDecorationTheme.fillColor,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Theme.of(context).inputDecorationTheme.border!.borderSide.color,
                           ),
                         ),
-                        const SizedBox(width: 10),
-                        const Icon(
-                          CupertinoIcons.check_mark, 
-                          size: 20, 
-                          color: Color(0xFF3FDA7F),
+                        child: CountryCodePicker(
+                          onChanged: (value) {
+                            print(value);
+                          },
+                          initialSelection: 'LK',
+                          favorite: const ['+94'],
+                          showCountryOnly: false,
+                          showOnlyCountryWhenClosed: false,
+                          showFlagMain: false,
+                          alignLeft: false,
+                          backgroundColor: Theme.of(context).primaryColor,
+                          dialogBackgroundColor: Theme.of(context).primaryColor,
+                          barrierColor: Theme.of(context).primaryColor,
+                          textStyle: Theme.of(context).textTheme.labelSmall,
                         ),
-                      ],
+                      ),
+                      const SizedBox(width: 20),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            constraints: const BoxConstraints(
+                              maxWidth: 136,
+                              minHeight: 50,
+                            ),
+                            child: inputBox(
+                              hint: '777 123 456',
+                              controller: controllers['phoneNo'],
+                              validator: (value) => Validate.validatePhoneNo(phoneNo: value),
+                              obscure: false,
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          // const Icon(
+                          //   CupertinoIcons.check_mark, 
+                          //   size: 20, 
+                          //   color: Color(0xFF3FDA7F),
+                          // ),
+                        ],
+                      ),
+                    ],
+                  )
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    inputField(
+                      width: 228.toDouble(),
+                      height: 50.toDouble(),
+                      label: 'Email Address', 
+                      child: inputBox(
+                        hint: 'johndoe@mail.com',
+                        controller: controllers['email'],
+                        validator: (value) => Validate.validateEmail(email: value),
+                        obscure: false
+                      ),
                     ),
+                    const SizedBox(width: 10),
+                    // Container(
+                    //   margin: const EdgeInsets.only(top: 20),
+                    //   height: 50.toDouble(),
+                    //   child: const Icon(
+                    //     CupertinoIcons.check_mark, 
+                    //     size: 20, 
+                    //     color: Color(0xFF3FDA7F),
+                    //   ),
+                    // ),
                   ],
-                )
-              ),
-              const SizedBox(height: 20),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  inputField(
-                    width: 228.toDouble(),
-                    height: 50.toDouble(),
-                    label: 'Email Address', 
-                    child: inputBox(
-                      hint: 'johndoe@mail.com',
-                      obscure: false
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Container(
-                    margin: const EdgeInsets.only(top: 20),
-                    height: 50.toDouble(),
-                    child: const Icon(
-                      CupertinoIcons.check_mark, 
-                      size: 20, 
-                      color: Color(0xFF3FDA7F),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: 55),
-      ],
+          const SizedBox(height: 55),
+        ],
+      ),
     );
   }
 
   Widget view4(double screenWidth, double screenHeight){
-    return Column(
-      children: [
-        const SizedBox(height: 75),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 45),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Become a member.',
-                style: GoogleFonts.didactGothic(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w100,
+    return Form(
+      key: _formKey3,
+      child: Column(
+        children: [
+          const SizedBox(height: 75),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 45),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Protect your account.',
+                  style: GoogleFonts.didactGothic(
+                    fontSize: 26,
+                    fontWeight: FontWeight.w100,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 55),
-              inputField(
-                width: double.infinity,
-                height: 50.toDouble(),
-                label: 'Password', 
-                child: inputBox(
-                  hint: '',
-                  obscure: true,
+                const SizedBox(height: 55),
+                inputField(
+                  width: double.infinity,
+                  height: 50.toDouble(),
+                  label: 'Password', 
+                  child: inputBox(
+                    hint: '',
+                    controller: controllers['password'],
+                    validator: (value) => Validate.validateRegPassword(password: value),
+                    obscure: true,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              inputField(
-                width: double.infinity,
-                height: 50.toDouble(),
-                label: 'Confirm Password', 
-                child: inputBox(
-                  hint: '',
-                  obscure: true,
+                const SizedBox(height: 20),
+                inputField(
+                  width: double.infinity,
+                  height: 50.toDouble(),
+                  label: 'Confirm Password', 
+                  child: inputBox(
+                    hint: '',
+                    controller: controllers['confPassword'],
+                    validator: (value) => Validate.validateRegConfPassword(password: (controllers['password'] as TextEditingController).text, confPassword: value),
+                    obscure: true,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: 55),
-      ],
+          const SizedBox(height: 55),
+        ],
+      ),
     );
   }
 
@@ -595,6 +685,7 @@ class RegisterState extends State<Register> {
                                       cameraLensDirection: CameraLensDirection.front,
                                       onSave: (path) {
                                         userDataProvider.setImagePath(path);
+                                        (controllers['profilePic'] as TextEditingController).text = path;
                                       },
                                     )
                                   )
@@ -711,6 +802,8 @@ class RegisterState extends State<Register> {
                                       cameraLensDirection: CameraLensDirection.back,
                                       onSave: (value) {
                                         userDataProvider.addDocumentImagePath(value);
+                                        (controllers['documents'] as List).add(value);
+
                                       },
                                     )
                                   )
@@ -722,7 +815,7 @@ class RegisterState extends State<Register> {
                           print(e);
                         }
                       },
-                      child: userDataProvider.documentImagePaths.length > 0 ? SizedBox(
+                      child: userDataProvider.documentImagePaths.isNotEmpty ? SizedBox(
                         width: double.infinity,
                         height: 95,
                         child: ListView.builder(
@@ -815,8 +908,10 @@ class RegisterState extends State<Register> {
     );
   }
 
-  Widget inputBox({hint, obscure, textAlign = TextAlign.start}){
+  Widget inputBox({hint, controller, required Function(String? value) validator, obscure, textAlign = TextAlign.start}){
     return TextFormField(
+      controller: controller,
+      validator: (value) => validator(value),
       decoration: InputDecoration(
         filled: true,
         fillColor: Theme.of(context).inputDecorationTheme.fillColor,
@@ -826,6 +921,7 @@ class RegisterState extends State<Register> {
           fontWeight: FontWeight.w400,
         ),
         border: Theme.of(context).inputDecorationTheme.border,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       ),
       style: Theme.of(context).textTheme.bodyMedium,
       textAlign: textAlign,
@@ -845,9 +941,11 @@ class RegisterState extends State<Register> {
           ),
         ),
         const SizedBox(height: 10),
-        SizedBox(
-          width: width,
-          height: height,
+        Container(
+          constraints: BoxConstraints(
+            maxWidth: width,
+            minHeight: height,
+          ),
           child: child
         ),
       ],

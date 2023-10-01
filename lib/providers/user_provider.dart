@@ -9,7 +9,13 @@ class UserDataProvider extends ChangeNotifier {
   String? get imagePath => _imagePath;
   List<String> get documentImagePaths => _documentImagePaths;
 
-  void setData({
+  void clearData() {
+    _imagePath = '';
+    _documentImagePaths.clear();
+    notifyListeners();
+  }
+
+  void setPin({
     String? pin,
   }) {
     _pin = pin;
