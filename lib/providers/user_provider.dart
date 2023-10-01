@@ -1,33 +1,28 @@
 import 'package:flutter/material.dart';
 
-class UserData extends ChangeNotifier {
-  String? pin;
+class UserDataProvider extends ChangeNotifier {
+  String? _pin = '';
+  String? _imagePath = '';
+  final List<String> _documentImagePaths = [];
 
-  UserData({
-    required this.pin
-  });
+  String? get pin => _pin;
+  String? get imagePath => _imagePath;
+  List<String> get documentImagePaths => _documentImagePaths;
 
   void setData({
     String? pin,
   }) {
-    this.pin = pin;
+    _pin = pin;
     notifyListeners();
   }
-}
 
-class UserDataProvider extends ChangeNotifier {
-  final UserData _userData = UserData(
-    pin: null
-  );
+  void setImagePath(String imagePath) {
+    _imagePath = imagePath;
+    notifyListeners();
+  }
 
-  UserData get userData => _userData;
-
-  void setData({
-    String? pin,
-  }) {
-    _userData.setData(
-      pin: pin,
-    );
+  void addDocumentImagePath(String imagePath) {
+    _documentImagePaths.add(imagePath);
     notifyListeners();
   }
 }

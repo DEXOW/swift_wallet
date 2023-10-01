@@ -3,9 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 
-import 'package:swift_wallet/screens/register/register.dart';
-import 'package:swift_wallet/screens/root.dart';
-
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -17,7 +14,7 @@ class LoginState extends State<Login> {
   int currentScene = 1;
 
   void login() {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Root())); 
+    Navigator.pushReplacementNamed(context, '/root'); 
   }
 
   @override
@@ -76,7 +73,7 @@ class LoginState extends State<Login> {
                             const SizedBox(height: 5),
                             TextButton(
                               onPressed: () {
-                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Register()));
+                                Navigator.pushReplacementNamed(context, '/register');
                               },
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,

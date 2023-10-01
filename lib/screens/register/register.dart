@@ -1,11 +1,16 @@
+import 'dart:io';
+
+import 'package:intl/intl.dart';
+import 'package:camera/camera.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-import 'package:swift_wallet/screens/login/login.dart';
+import 'package:swift_wallet/models/camera.dart';
+import 'package:swift_wallet/providers/user_provider.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -15,6 +20,7 @@ class Register extends StatefulWidget {
 }
 
 class RegisterState extends State<Register> {
+  late UserDataProvider userDataProvider;
   late DateTime selectedDate;
   int minAllowedAge = 18;
   int currentScene = 1;
@@ -27,6 +33,8 @@ class RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context){
+    userDataProvider = Provider.of<UserDataProvider>(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -121,7 +129,7 @@ class RegisterState extends State<Register> {
                                           currentScene++;
                                         });
                                       } else {
-                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Login()));
+                                        Navigator.pushReplacementNamed(context, '/login');
                                       }
                                     },
                                     style: Theme.of(context).elevatedButtonTheme.style,
@@ -139,7 +147,7 @@ class RegisterState extends State<Register> {
                             const SizedBox(height: 5),
                             TextButton(
                               onPressed: () {
-                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Login()));
+                                Navigator.pushReplacementNamed(context, '/login');
                               },
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,
@@ -573,18 +581,64 @@ class RegisterState extends State<Register> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 95,
-                      height: 95,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).inputDecorationTheme.fillColor,
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(
-                          color: Theme.of(context).inputDecorationTheme.border!.borderSide.color,
+                    GestureDetector(
+                      onTap: () async {
+                        try {
+                          await availableCameras().then(
+                            (value) {
+                              if (value.isNotEmpty){
+                                Navigator.push(
+                                  context, 
+                                  MaterialPageRoute(
+                                    builder: (_) => TakePictureScreen(
+                                      cameras: value,
+                                      cameraLensDirection: CameraLensDirection.front,
+                                      onSave: (path) {
+                                        userDataProvider.setImagePath(path);
+                                      },
+                                    )
+                                  )
+                                );
+                              }
+                            }
+                          );
+                        } on CameraException catch (e) {
+                          print(e);
+                        }
+                      },
+                      child: userDataProvider.imagePath == '' 
+                      ? Container(
+                        width: 95,
+                        height: 95,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).inputDecorationTheme.fillColor,
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(
+                            color: Theme.of(context).inputDecorationTheme.border!.borderSide.color,
+                          ),
                         ),
-                      ),
-                      alignment: Alignment.center,
-                      child: const Icon(CupertinoIcons.camera, size: 30),
+                        alignment: Alignment.center,
+                        child: const Icon(CupertinoIcons.camera, size: 30) 
+                      )
+                      : Container(
+                        width: 95,
+                        height: 95,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).inputDecorationTheme.fillColor,
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(
+                            color: Theme.of(context).inputDecorationTheme.border!.borderSide.color,
+                          ),
+                        ),
+                        alignment: Alignment.center,
+                        child: Image.file(
+                          File('${Provider.of<UserDataProvider>(context).imagePath}'),
+                          width: 95,
+                          height: 95,
+                          fit: BoxFit.cover,
+                        ),
+                      )
                     ),
                     const SizedBox(height: 10),
                     Text(
@@ -643,18 +697,74 @@ class RegisterState extends State<Register> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Container(
-                      width: screenWidth-(45*2),
-                      height: 95,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).inputDecorationTheme.fillColor,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Theme.of(context).inputDecorationTheme.border!.borderSide.color,
+                    GestureDetector(
+                      onTap: () async {
+                        try {
+                          await availableCameras().then(
+                            (value) {
+                              if (value.isNotEmpty){
+                                Navigator.push(
+                                  context, 
+                                  MaterialPageRoute(
+                                    builder: (_) => TakePictureScreen(
+                                      cameras: value,
+                                      cameraLensDirection: CameraLensDirection.back,
+                                      onSave: (value) {
+                                        userDataProvider.addDocumentImagePath(value);
+                                      },
+                                    )
+                                  )
+                                );
+                              }
+                            }
+                          );
+                        } on CameraException catch (e) {
+                          print(e);
+                        }
+                      },
+                      child: userDataProvider.documentImagePaths.length > 0 ? SizedBox(
+                        width: double.infinity,
+                        height: 95,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: userDataProvider.documentImagePaths.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              width: 95,
+                              height: 95,
+                              margin: const EdgeInsets.only(right: 10),
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).inputDecorationTheme.fillColor,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: Theme.of(context).inputDecorationTheme.border!.borderSide.color,
+                                ),
+                              ),
+                              alignment: Alignment.center,
+                              child: Image.file(
+                                File(userDataProvider.documentImagePaths[index]),
+                                width: 95,
+                                height: 95,
+                                fit: BoxFit.cover,
+                              ),
+                            );
+                          },
                         ),
+                      ) :
+                      Container(
+                        width: screenWidth-(45*2),
+                        height: 95,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).inputDecorationTheme.fillColor,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Theme.of(context).inputDecorationTheme.border!.borderSide.color,
+                          ),
+                        ),
+                        alignment: Alignment.center,
+                        child: const Icon(CupertinoIcons.add, size: 30),
                       ),
-                      alignment: Alignment.center,
-                      child: const Icon(CupertinoIcons.add, size: 30),
                     ),
                   ],
                 ),

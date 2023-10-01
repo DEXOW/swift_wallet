@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:swift_wallet/screens/get_started/tips_widget.dart';
-import 'package:swift_wallet/screens/register/register.dart';
-
 class GetStarted extends StatefulWidget {
   const GetStarted({Key? key}) : super(key: key);
 
@@ -55,7 +53,7 @@ class GetStartedState extends State<GetStarted> {
                             height: 50,
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const Register()));
+                                Navigator.pushNamed(context, '/register');
                               },
                               style: Theme.of(context).elevatedButtonTheme.style,
                               child: const Text(
