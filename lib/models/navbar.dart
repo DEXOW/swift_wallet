@@ -34,6 +34,7 @@ class NavbarState extends State<Navbar> {
           GestureDetector(
             onTap: () {
               globalProvider.setIndex(0);
+              ModalRoute.of(context)!.settings.name != '/root' ? Navigator.popUntil(context, ModalRoute.withName('/root')) : null;
             },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -47,6 +48,7 @@ class NavbarState extends State<Navbar> {
           GestureDetector(
             onTap: () {
               globalProvider.setIndex(1);
+              ModalRoute.of(context)!.settings.name != '/root' ? Navigator.popUntil(context, ModalRoute.withName('/root')) : null;
             },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -60,6 +62,7 @@ class NavbarState extends State<Navbar> {
           GestureDetector(
             onTap: () {
               globalProvider.setIndex(2);
+              ModalRoute.of(context)!.settings.name != '/root' ? Navigator.popUntil(context, ModalRoute.withName('/root')) : null;
             },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 5),
