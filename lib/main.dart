@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:swift_wallet/constants.dart';
+import 'package:swift_wallet/firebase_options.dart';
 import 'package:swift_wallet/providers/global_provider.dart';
 import 'package:swift_wallet/providers/theme_provider.dart';
 
@@ -10,6 +12,13 @@ import 'package:swift_wallet/screens/get_started/get_started.dart';
 import 'package:swift_wallet/screens/login/login.dart';
 import 'package:swift_wallet/screens/register/register.dart';
 import 'package:swift_wallet/screens/root.dart';
+
+Future<FirebaseApp> _initializeFirebase() async {
+  FirebaseApp firebaseApp = await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  return firebaseApp;
+}
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,7 +58,18 @@ class MyAppState extends State<MyApp> {
             systemNavigationBarColor: state.darkTheme ? const Color(0xFF23272A) : const Color(0xFFF5F5F5),
             systemNavigationBarIconBrightness: state.darkTheme ? Brightness.light : Brightness.dark,
           ),
-          child:  const GetStarted(),
+          child:  FutureBuilder(
+            future: _initializeFirebase(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done){
+                return const GetStarted();
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
         ),
         initialRoute: '/get-started',
         routes: {

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "487422672996",
+    "project_id": "swift-wallet-f68dd",
+    "storage_bucket": "swift-wallet-f68dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:487422672996:android:5b4bf730b906176a45df71",
+        "android_client_info": {
+          "package_name": "com.example.swift_wallet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNuV5gvUlvG4fbVlTD3lQhrRAiiHPpjkg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

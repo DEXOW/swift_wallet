@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:swift_wallet/models/navbar.dart';
 
 import 'package:swift_wallet/providers/global_provider.dart';
+import 'package:swift_wallet/screens/accounts/accounts.dart';
 import 'package:swift_wallet/screens/home/home.dart';
 import 'package:swift_wallet/screens/settings/settings.dart';
 
@@ -52,9 +53,11 @@ class _RootState extends State<Root> {
                                   colorFilter: ColorFilter.mode(Theme.of(context).iconTheme.color!, BlendMode.srcIn),
                                 ),
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    globalProvider.selectedIndex == 0 ? null : globalProvider.selectedIndex == 1 ? null :  Navigator.popAndPushNamed(context, '/login');
+                                  },
                                   icon: Icon(
-                                    globalProvider.selectedIndex == 2 ? Icons.logout : Icons.notifications_outlined,
+                                    globalProvider.selectedIndex == 0 ? Icons.add : globalProvider.selectedIndex == 1 ? Icons.notifications_outlined :  Icons.logout,
                                     size: 30,
                                   ),
                                 )
@@ -73,7 +76,7 @@ class _RootState extends State<Root> {
                             builder: (BuildContext context, BoxConstraints constraints){
                               switch (globalProvider.selectedIndex) {
                                 case 0:
-                                  return const Home();
+                                  return const Accounts();
                                 case 1:
                                   return const Home();
                                 case 2:

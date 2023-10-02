@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
+import 'package:swift_wallet/firebase/fire_auth.dart';
+import 'package:swift_wallet/providers/user_provider.dart';
 import 'package:swift_wallet/validate.dart';
 
 class Login extends StatefulWidget {
@@ -12,6 +16,7 @@ class Login extends StatefulWidget {
 }
 
 class LoginState extends State<Login> {
+  late UserDataProvider userDataProvider;
   int currentScene = 1;
   final controllers = {
     'email': TextEditingController(),
@@ -25,6 +30,8 @@ class LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context){
+    userDataProvider = Provider.of<UserDataProvider>(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -79,6 +86,7 @@ class LoginState extends State<Login> {
                             const SizedBox(height: 5),
                             TextButton(
                               onPressed: () {
+                                userDataProvider.clearData();
                                 Navigator.pushReplacementNamed(context, '/register');
                               },
                               style: TextButton.styleFrom(
@@ -169,9 +177,15 @@ class LoginState extends State<Login> {
                   width: double.infinity,
                   height: 45,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey1.currentState!.validate()) {
-                        login();
+                        User? user = await FireAuth.signInUsingEmailPassword(email: (controllers['email'] as TextEditingController).text.trim(), password: (controllers['password'] as TextEditingController).text, context: context);
+                        if (user != null){
+                          if (context.mounted){
+                            print(user.email);
+                            login();
+                          }
+                        }
                       }
                     },
                     style: Theme.of(context).elevatedButtonTheme.style,
