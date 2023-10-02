@@ -9,4 +9,9 @@ class GlobalProvider extends ChangeNotifier {
     _selectedScreenIndex = index;
     notifyListeners();
   }
+
+  void resetIndex() {
+    _selectedScreenIndex = 1;
+    notifyListeners();
+  }
 }

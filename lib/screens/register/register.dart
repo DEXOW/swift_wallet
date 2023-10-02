@@ -57,222 +57,217 @@ class RegisterState extends State<Register> {
   Widget build(BuildContext context){
     userDataProvider = Provider.of<UserDataProvider>(context);
 
-    return WillPopScope(
-      onWillPop: () async {
-        return false;
-      },
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: SafeArea(
-          child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints){
-              double screenHeight = constraints.maxHeight;
-              double screenWidth = constraints.maxWidth;
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints){
+            double screenHeight = constraints.maxHeight;
+            double screenWidth = constraints.maxWidth;
     
-              return Scaffold(
-                resizeToAvoidBottomInset: false,
-                body: SizedBox(
-                  width: double.infinity,
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 25, bottom: 15),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Column(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 25),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/logo.svg',
-                                    height: 40,
-                                    colorFilter: ColorFilter.mode(Theme.of(context).iconTheme.color!, BlendMode.srcIn),
-                                  ),
-                                ]
-                              ),
-                            ),
-                            LayoutBuilder(
-                              builder: (BuildContext context, BoxConstraints constraints){
-                                if (currentScene == 1){
-                                  return view1(screenWidth, screenHeight);
-                                } else if (currentScene == 2){
-                                  return view2(screenWidth, screenHeight);
-                                } else if (currentScene == 3){
-                                  return view3(screenWidth, screenHeight);
-                                } else if (currentScene == 4){
-                                  return view4(screenWidth, screenHeight);
-                                } else if (currentScene == 5){
-                                  return view5(screenWidth, screenHeight);
-                                } else if (currentScene == 6){
-                                  return view6(screenWidth, screenHeight);
-                                } else if (currentScene == 7){
-                                  return view7(screenWidth, screenHeight);
-                                } else {
-                                  return Container();
-                                }
-                              } 
-                            ),
-                          ],
-                        ),
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(horizontal: 45),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  currentScene == 7 ? Container() : SizedBox(
-                                    width: 45,
-                                    height: 45,
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        if (currentScene == 1) {
-                                          setState(() {
-                                            Navigator.pop(context);
-                                          });
-                                        } else if (currentScene > 1){
-                                          setState(() {
-                                            currentScene--;
-                                          });
-                                        }
-                                      },
-                                      style: Theme.of(context).elevatedButtonTheme.style,
-                                      child: const Icon(CupertinoIcons.back, size: 20, weight: 60,),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 15),
-                                  SizedBox(
-                                    width: 210,
-                                    height: 45,
-                                    child: ElevatedButton(
-                                      onPressed: () async {
-                                        if (currentScene < 7){
-                                          switch (currentScene){
-                                            case (1):
-                                              if (_formKey1.currentState!.validate()){
-                                                setState(() {
-                                                  currentScene++;
-                                                });
-                                              }
-                                              break;
-                                            case (2):
-                                              if ((controllers['dob'] as TextEditingController).text != '' && (controllers['country'] as TextEditingController).text != ''){
-                                                setState(() {
-                                                  currentScene++;
-                                                });
-                                              }
-                                              break;
-                                            case (3):
-                                              if (_formKey2.currentState!.validate()){
-                                                bool accountExist = await FireStore.checkUserExist(context: context, email: (controllers['email'] as TextEditingController).text);
-                                                if (!accountExist){
-                                                  setState(() {
-                                                    currentScene++;
-                                                  });
-                                                }
-                                              }
-                                              break;
-                                            case (4):
-                                              if (_formKey3.currentState!.validate()){
-                                                setState(() {
-                                                  currentScene++;
-                                                });
-                                              }
-                                              break;
-                                            case (5):
-                                              if (userDataProvider.imagePath != ''){
-                                                setState(() {
-                                                  currentScene++;
-                                                });
-                                              }
-                                              break;
-                                            case (6):
-                                              if (userDataProvider.documentImagePaths.isNotEmpty){
-                                                User? user = await FireAuth.registerUsingEmailPassword(
-                                                  firstName: (controllers['firstName'] as TextEditingController).text, 
-                                                  lastName: (controllers['lastName'] as TextEditingController).text, 
-                                                  otherNames: (controllers['otherNames'] as TextEditingController).text,
-                                                  email: (controllers['email'] as TextEditingController).text, 
-                                                  password: (controllers['password'] as TextEditingController).text, 
-                                                  dob: (controllers['dob'] as TextEditingController).text, 
-                                                  country: (controllers['country'] as TextEditingController).text,
-                                                  phoneNoCode: (controllers['phoneNoCode'] as TextEditingController).text, 
-                                                  phoneNo: (controllers['phoneNo'] as TextEditingController).text,
-                                                  context: context
-                                                );
-                                                if (user != null){
-                                                  setState(() {
-                                                    currentScene++;
-                                                  });
-                                                }
-                                              }
-                                              break;
-                                          }
-                                        } else {
-                                          userDataProvider.clearData();
-                                          Navigator.pushReplacementNamed(context, '/login');
-                                        }
-                                      },
-                                      style: Theme.of(context).elevatedButtonTheme.style,
-                                      child: Text(
-                                        currentScene < 7 ? currentScene < 6 ? 'Next' : 'Register' : 'Done',
-                                        style: GoogleFonts.didactGothic(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 5),
-                              TextButton(
-                                onPressed: () {
-                                  userDataProvider.clearData();
-                                  Navigator.pushReplacementNamed(context, '/login');
-                                },
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            return Scaffold(
+              resizeToAvoidBottomInset: false,
+              body: SizedBox(
+                width: double.infinity,
+                child: Container(
+                  margin: const EdgeInsets.only(top: 25, bottom: 15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 25),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/logo.svg',
+                                  height: 40,
+                                  colorFilter: ColorFilter.mode(Theme.of(context).iconTheme.color!, BlendMode.srcIn),
                                 ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Already have an account? ',
+                              ]
+                            ),
+                          ),
+                          LayoutBuilder(
+                            builder: (BuildContext context, BoxConstraints constraints){
+                              if (currentScene == 1){
+                                return view1(screenWidth, screenHeight);
+                              } else if (currentScene == 2){
+                                return view2(screenWidth, screenHeight);
+                              } else if (currentScene == 3){
+                                return view3(screenWidth, screenHeight);
+                              } else if (currentScene == 4){
+                                return view4(screenWidth, screenHeight);
+                              } else if (currentScene == 5){
+                                return view5(screenWidth, screenHeight);
+                              } else if (currentScene == 6){
+                                return view6(screenWidth, screenHeight);
+                              } else if (currentScene == 7){
+                                return view7(screenWidth, screenHeight);
+                              } else {
+                                return Container();
+                              }
+                            } 
+                          ),
+                        ],
+                      ),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(horizontal: 45),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                currentScene == 7 ? Container() : SizedBox(
+                                  width: 45,
+                                  height: 45,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      if (currentScene == 1) {
+                                        setState(() {
+                                          Navigator.pop(context);
+                                        });
+                                      } else if (currentScene > 1){
+                                        setState(() {
+                                          currentScene--;
+                                        });
+                                      }
+                                    },
+                                    style: Theme.of(context).elevatedButtonTheme.style,
+                                    child: const Icon(CupertinoIcons.back, size: 20, weight: 60,),
+                                  ),
+                                ),
+                                const SizedBox(width: 15),
+                                SizedBox(
+                                  width: 210,
+                                  height: 45,
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      if (currentScene < 7){
+                                        switch (currentScene){
+                                          case (1):
+                                            if (_formKey1.currentState!.validate()){
+                                              setState(() {
+                                                currentScene++;
+                                              });
+                                            }
+                                            break;
+                                          case (2):
+                                            if ((controllers['dob'] as TextEditingController).text != '' && (controllers['country'] as TextEditingController).text != ''){
+                                              setState(() {
+                                                currentScene++;
+                                              });
+                                            }
+                                            break;
+                                          case (3):
+                                            if (_formKey2.currentState!.validate()){
+                                              bool accountExist = await FireStore.checkUserExist(context: context, email: (controllers['email'] as TextEditingController).text);
+                                              if (!accountExist){
+                                                setState(() {
+                                                  currentScene++;
+                                                });
+                                              }
+                                            }
+                                            break;
+                                          case (4):
+                                            if (_formKey3.currentState!.validate()){
+                                              setState(() {
+                                                currentScene++;
+                                              });
+                                            }
+                                            break;
+                                          case (5):
+                                            if (userDataProvider.imagePath != ''){
+                                              setState(() {
+                                                currentScene++;
+                                              });
+                                            }
+                                            break;
+                                          case (6):
+                                            if (userDataProvider.documentImagePaths.isNotEmpty){
+                                              User? user = await FireAuth.registerUsingEmailPassword(
+                                                firstName: (controllers['firstName'] as TextEditingController).text, 
+                                                lastName: (controllers['lastName'] as TextEditingController).text, 
+                                                otherNames: (controllers['otherNames'] as TextEditingController).text,
+                                                email: (controllers['email'] as TextEditingController).text, 
+                                                password: (controllers['password'] as TextEditingController).text, 
+                                                dob: (controllers['dob'] as TextEditingController).text, 
+                                                country: (controllers['country'] as TextEditingController).text,
+                                                phoneNoCode: (controllers['phoneNoCode'] as TextEditingController).text, 
+                                                phoneNo: (controllers['phoneNo'] as TextEditingController).text,
+                                                context: context
+                                              );
+                                              if (user != null){
+                                                setState(() {
+                                                  currentScene++;
+                                                });
+                                              }
+                                            }
+                                            break;
+                                        }
+                                      } else {
+                                        userDataProvider.clearData();
+                                        Navigator.pushReplacementNamed(context, '/login');
+                                      }
+                                    },
+                                    style: Theme.of(context).elevatedButtonTheme.style,
+                                    child: Text(
+                                      currentScene < 7 ? currentScene < 6 ? 'Next' : 'Register' : 'Done',
                                       style: GoogleFonts.didactGothic(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        color: Theme.of(context).textTheme.bodyMedium!.color,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 5),
-                                    Text(
-                                      'Log In',
-                                      style: GoogleFonts.didactGothic(
-                                        fontSize: 14,
+                                        fontSize: 16,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                  ],
-                                )
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 5),
+                            TextButton(
+                              onPressed: () {
+                                userDataProvider.clearData();
+                                Navigator.pushReplacementNamed(context, '/login');
+                              },
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Already have an account? ',
+                                    style: GoogleFonts.didactGothic(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: Theme.of(context).textTheme.bodyMedium!.color,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    'Log In',
+                                    style: GoogleFonts.didactGothic(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
                               )
-                            ]
-                          ),
-                        )
-                      ]
-                    ),
+                            )
+                          ]
+                        ),
+                      )
+                    ]
                   ),
                 ),
-              );
-            }
-          )
+              ),
+            );
+          }
         )
-      ),
+      )
     );
   }
 
