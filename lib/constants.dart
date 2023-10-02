@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 
-//Background Colors
-const primaryBgColor = Color(0xFF23272A);
+// //Background Colors
+// const primaryBgColor = Color(0xFF23272A);
 
-// Text Colors
-const primaryTextColor = Color(0xFFE5E5E5);
-const secondaryTextColor = Color(0xFFA5A5A5);
-const tertiaryTextColor = Color(0xFF000000);
+// // Text Colors
+// const primaryTextColor = Color(0xFFE5E5E5);
+// const secondaryTextColor = Color(0xFFA5A5A5);
+// const tertiaryTextColor = Color(0xFF000000);
 
-// Button Colors
-const primaryButtonColor = Color(0xFFFFFFFF);
+// // Button Colors
+// const primaryButtonColor = Color(0xFFFFFFFF);
 
 
 //Light Theme
@@ -24,7 +24,7 @@ class AppTheme {
     ),
 
     appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.white,
+      backgroundColor:Color(0xFFF5F5F5),
       elevation: 0,
       titleTextStyle: TextStyle(
         color: Color(0xFF23272A),
